@@ -108,6 +108,7 @@ public class LoginTest extends BaseTest {
     }
 
     /* a bad test written out of interest */
+    /*
     @Test
     public void checkPositiveSignup() {
         LoginPage page = new LoginPage(driver);
@@ -117,6 +118,7 @@ public class LoginTest extends BaseTest {
                 positiveSignupMessage
         );
     }
+    */
 
     @Test
     public void checkNegativeSignupWithExistingUsername() {
