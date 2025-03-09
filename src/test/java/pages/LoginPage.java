@@ -70,10 +70,7 @@ public class LoginPage {
 
     public String getWelcomeMessage() {
         WebElement welcomeField = driver.findElement(By.id("nameofuser"));
-        if (welcomeField.isDisplayed()) {
-            return welcomeField.getText();
-        }
-        return null;
+        return welcomeField.getText();
     }
 
     private String getAlertMessage() {
