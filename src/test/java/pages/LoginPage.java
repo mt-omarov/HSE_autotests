@@ -69,8 +69,14 @@ public class LoginPage {
     }
 
     public String getWelcomeMessage() {
-        WebElement welcomeField = driver.findElement(By.id("nameofuser"));
-        return welcomeField.getText();
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("nameofuser")));
+
+            return driver.findElement(By.id("nameofuser")).getText();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     private String getAlertMessage() {
