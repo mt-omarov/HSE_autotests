@@ -25,7 +25,7 @@ public class LoginTest extends BaseTest {
 
         String alphanumericCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuv";
 
-        StringBuffer randomString = new StringBuffer(length);
+        StringBuilder randomString = new StringBuilder(length);
         Random random = new Random();
 
         for (int i = 0; i < length; i++) {
