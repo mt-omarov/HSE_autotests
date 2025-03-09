@@ -1,5 +1,6 @@
 package pages;
 
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,6 +12,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class LoginPage {
+
+    private static final Logger log = org.apache.logging.log4j.LogManager.getLogger(LoginPage.class);
 
     WebDriver driver;
 
@@ -33,14 +36,19 @@ public class LoginPage {
     private static final String CLOSE_BUTTON_PATTERN  = "//h5[text() = '%s']/ancestor::div//div[@class = 'modal-footer']//button[1]";
 
     private void openForm(String formTitle) {
+        log.info("Opening the main page");
         driver.get("https://www.demoblaze.com/#");
+
+        log.info("Opening the '{}' form", formTitle);
         driver.findElement(formTitle.equals(LOGIN_FORM_TITLE) ? LOGIN_FORM : SIGNUP_FORM).click();
     }
 
     private void closeForm(String formTitle) {
+        log.info("Closing the '{}' form", formTitle);
         try {
             driver.findElement(By.xpath(String.format(CLOSE_BUTTON_PATTERN, formTitle))).click();
         } catch (Exception e) {
+            log.info("Failed to close the '{}' form", formTitle);
             return;
         }
     }
@@ -48,6 +56,7 @@ public class LoginPage {
     private String sendForm(String formTitle, String username, String password) {
         openForm(formTitle);
 
+        log.info("Sending the '{}' form with username '{}' and password '{}'", formTitle, username, password);
         driver.findElement(By.xpath(String.format(USERNAME_FIELD_PATTERN, formTitle))).sendKeys(username);
         driver.findElement(By.xpath(String.format(PASSWORD_FIELD_PATTERN, formTitle))).sendKeys(password);
         driver.findElement(By.xpath(String.format(SUBMIT_BUTTON_PATTERN, formTitle))).click();
@@ -69,17 +78,22 @@ public class LoginPage {
     }
 
     public String getWelcomeMessage() {
+        log.info("Getting welcome message");
         try {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("nameofuser")));
 
-            return driver.findElement(By.id("nameofuser")).getText();
+            By elementBy = By.id("nameofuser");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(elementBy));
+
+            return driver.findElement(elementBy).getText();
         } catch (Exception e) {
+            log.info("Failed to get welcome message");
             return null;
         }
     }
 
     private String getAlertMessage() {
+        log.info("Getting alert message");
         try {
             /* timer for checking the appearance of the prompt window */
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
@@ -90,6 +104,7 @@ public class LoginPage {
             alert.accept();
             return message;
         } catch (Exception e) {
+            log.info("Failed to get alert message");
             return null;
         }
     }
